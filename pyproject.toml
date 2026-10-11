@@ -1,0 +1,11 @@
+[project]
+name = "bunjo-thesis"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "jupyter>=1.1.1",
+    "matplotlib>=3.11.2",
+    "matplotlib-fontja>=1.1.0",
+    "pandas>=3.0.6",
+    "tabulate>=0.10.0",
+]

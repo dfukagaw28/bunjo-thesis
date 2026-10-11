@@ -9,13 +9,14 @@ Markdown で書いた原稿と分析コードから、卒業論文の PDF を作
 2. 手元に clone し、必要なソフトを入れる。
    - [Quarto](https://quarto.org/docs/get-started/)(1.4 以降)
    - TeX Live(LuaLaTeX と jlreq、LuaTeX-ja、原ノ味フォントを含むもの。フルインストールなら入っている)
-   - Python 3 と、`pip install -r requirements.txt`
+   - [uv](https://docs.astral.sh/uv/getting-started/installation/)(Python の版とパッケージを管理する)
+   - リポジトリのフォルダで `uv sync` を実行する。Python 本体と、分析に使うパッケージが入る。
 3. `_quarto.yml` の上のほうにある題目・氏名・学籍番号・担当教員・要旨を書き換える。
 4. PDF を作る。
 
 ```sh
-quarto render      # _book/thesis.pdf ができる
-quarto preview     # 保存するたびに作り直してプレビューする
+uv run quarto render      # _book/thesis.pdf ができる
+uv run quarto preview     # 保存するたびに作り直してプレビューする
 ```
 
 GitHub に push すると、GitHub Actions が同じ PDF を作ります(Actions タブ → 実行結果 → Artifacts)。
@@ -32,6 +33,7 @@ GitHub に push すると、GitHub Actions が同じ PDF を作ります(Actions
 | `references.bib` | 文献データ |
 | `analysis/` | 実験・分析のコード |
 | `data/` | データ |
+| `pyproject.toml`、`uv.lock` | 分析に使うパッケージとその版(`uv add` で更新する) |
 | `figures/` | 写真など、コードで作らない図(必要になったら作る) |
 | `_template/` | 表紙・版面・文献スタイル。ふだんは触らない |
 
@@ -60,6 +62,9 @@ GitHub に push すると、GitHub Actions が同じ PDF を作ります(Actions
 
 - 原稿の中のコードは、PDF を作るたびに実行されます。図表と本文の数値がずれません。
 - 長い処理は `analysis/` に関数として書き、原稿からは呼び出すだけにします。
+- パッケージを足すときは `uv add パッケージ名`(例: `uv add scikit-learn`)を実行し、
+  変わった `pyproject.toml` と `uv.lock` もコミットします。
+  `uv.lock` に版が記録されるので、手元でも GitHub Actions でも同じ版で計算されます。
 - R を使う場合は、チャンクを ```` ```{r} ```` にします。コードを使わない場合は、チャンクを消せば Python は不要です。
 - 計算に時間がかかるようになったら、`_quarto.yml` の `execute` に `freeze: auto` を足します。
   変更のない章は再計算されなくなります(`_freeze/` もコミットしてください)。

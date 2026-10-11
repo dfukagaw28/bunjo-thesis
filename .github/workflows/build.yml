@@ -19,16 +19,13 @@ jobs:
           tlmgr update --self
           tlmgr install jlreq luatexja haranoaji selnolig caption
 
-      # pip より速い uv で Python とパッケージを入れる。.venv が以降のステップで使われる
+      # uv.lock に記録した版のパッケージを入れる(Python の版は .python-version)
       - uses: astral-sh/setup-uv@v10.3.0
-        with:
-          python-version: "3.12"
-          activate-environment: true
-      - run: uv pip install -r requirements.txt
+      - run: uv sync --locked
 
       - uses: quarto-dev/quarto-actions/setup@v2
 
-      - run: quarto render
+      - run: uv run quarto render
 
       - uses: actions/upload-artifact@v7
         with:
