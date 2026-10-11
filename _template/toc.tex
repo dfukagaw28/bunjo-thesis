@@ -1,4 +1,9 @@
 %% 目次(ここまでローマ数字、本文からアラビア数字のページ番号)
+%% 点線を、jlreq の全角の「・」から、通常の LaTeX と同じ小さな「.」にする
+\makeatletter
+\patchcmd{\@dottedtocline}{・}{.}{}{}
+\renewcommand{\@dotsep}{4.5}
+\makeatother
 $if(toc)$
 \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
