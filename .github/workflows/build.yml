@@ -27,7 +27,8 @@ jobs:
 
       - run: uv run quarto render
 
+      # zip にせず PDF のままアップロードする(成果物の名前は thesis.pdf になる)
       - uses: actions/upload-artifact@v7
         with:
-          name: thesis
           path: _book/thesis.pdf
+          archive: false
