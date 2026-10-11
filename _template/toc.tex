@@ -1,0 +1,13 @@
+%% 目次(ここまでローマ数字、本文からアラビア数字のページ番号)
+$if(toc)$
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+$endif$
+$if(lof)$
+\listoffigures
+$endif$
+$if(lot)$
+\listoftables
+$endif$
+\clearpage
+\pagenumbering{arabic}

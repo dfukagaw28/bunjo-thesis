@@ -1,0 +1,33 @@
+name: PDF を作る
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: LaTeX(日本語)を入れる
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-luatex texlive-lang-japanese \
+            texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+
+      - run: quarto render
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: thesis
+          path: _book/thesis.pdf

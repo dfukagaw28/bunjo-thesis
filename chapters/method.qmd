@@ -1,0 +1,68 @@
+# 図・表・数式 {#sec-method}
+
+```{python}
+from analysis.sample import load_scores, plot_scores, summarize
+
+scores = load_scores("data/scores.csv")
+summary = summarize(scores)
+```
+
+この章では、分析コードの結果を図表として論文に入れる方法を示す。
+原稿の中に書いたコードは PDF を作るたびに実行され、その出力が図表になる。
+データを差し替えても、図表と本文の数値は食い違わない。
+
+## コードから図を作る
+
+@fig-scores は、`data/scores.csv` を読み込んで描いた図である。
+処理の本体は `analysis/sample.py` に置き、原稿からは関数を呼び出すだけにしている。
+
+```{python}
+#| label: fig-scores
+#| fig-cap: "クラス別の得点の分布"
+plot_scores(scores)
+```
+
+ラベルを `fig-` で始めると図として扱われ、`@fig-scores` で番号を参照できる。
+
+## コードから表を作る
+
+@tbl-summary は、同じデータの要約統計量である。
+
+```{python}
+#| label: tbl-summary
+#| tbl-cap: "クラス別の要約統計量"
+from IPython.display import Markdown
+
+Markdown(summary.to_markdown(floatfmt=("", ".0f", ".1f", ".1f")))
+```
+
+本文の中に計算結果を埋め込むこともできる。
+分析対象は全部で `{python} len(scores)` 人であり、全体の平均点は `{python} f"{scores['score'].mean():.1f}"` 点であった。
+
+## 手で書く表
+
+コードを使わない表は、次のように書く。結果は @tbl-manual のようになる。
+
+| 手法   | 適合率 | 再現率 |
+|:-------|-------:|-------:|
+| 手法 A |   0.71 |   0.64 |
+| 手法 B |   0.78 |   0.69 |
+
+: 手法の比較 {#tbl-manual}
+
+## 画像ファイルを図にする
+
+写真や、別のソフトで作った図は、`figures/` に置いて次のように読み込む。
+
+```markdown
+![システムの構成](figures/system.pdf){#fig-system width=80%}
+```
+
+## 数式
+
+数式は LaTeX の書き方で書く。文中の数式は $\bar{x}$ のように `$` で囲む。
+独立した数式にはラベルを付けられる。標本平均は @eq-mean で定義される。
+
+$$
+\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
+$$ {#eq-mean}

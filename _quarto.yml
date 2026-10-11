@@ -1,0 +1,64 @@
+project:
+  type: book
+  execute-dir: project        # コードはリポジトリ直下を基準に実行する
+
+# ---- ここから自分の情報に書き換える ----------------------------------
+book:
+  title: "Markdown と Quarto による卒業論文の作成"
+  author: "文情 太郎"
+  output-file: thesis
+  chapters:
+    - index.qmd                # 第1章(ファイル名は index.qmd のまま)
+    - chapters/related.qmd
+    - chapters/method.qmd
+    - chapters/conclusion.qmd
+    - acknowledgements.qmd
+    - references.qmd
+  appendices:
+    - chapters/appendix.qmd
+
+thesis:
+  year: "20XX"                 # 卒業年度
+  date: "20XX年12月"           # 提出年月
+  affiliation: "同志社大学文化情報学部文化情報学科"
+  student-id: "1108XX0000"
+  advisers:
+    - role: "主担当教員"
+      name: "新島 襄 教授"
+    - role: "副担当教員"
+      name: "新島 八重 教授"
+  abstract: |
+    ここに要旨を書く。卒業論文の場合は 1,000 字程度とする。
+    行頭の字下げ(半角スペース 4 つ)をそろえて書くこと。
+
+    空行で段落が分かれる。研究の背景、目的、方法、結果、結論を、
+    本文を読まなくても分かるようにまとめる。
+# ---- ここまで --------------------------------------------------------
+
+lang: ja
+bibliography: references.bib
+csl: _template/references.csl
+filters:
+  - _template/ja-refs.lua      # 和文・英文の文献を見分ける
+  - _template/code-breaks.lua  # 本文中の長いパスを途中で改行できるようにする
+
+execute:
+  echo: false                  # コードそのものは論文に載せない
+  warning: false
+
+format:
+  pdf:
+    pdf-engine: lualatex
+    wrap: preserve             # 原稿の改行を保つ(和文の行中に空白が入らないように)
+    documentclass: jlreq       # 版面の設定は _template/doc-class.tex にある
+    indent: true               # 段落の頭を字下げする
+    toc: true
+    colorlinks: false          # リンクを黒のままにする(印刷向け)
+    toc-depth: 2
+    number-sections: true
+    fig-width: 5
+    fig-height: 2.6
+    template-partials:
+      - _template/doc-class.tex
+      - _template/before-body.tex
+      - _template/toc.tex

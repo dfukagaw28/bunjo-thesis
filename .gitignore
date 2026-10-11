@@ -1,0 +1,15 @@
+# Quarto が作るもの
+/.quarto/
+/_book/
+/index.tex
+**/*_files/
+
+# Python
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+
+# OS
+.DS_Store
+
+**/*.quarto_ipynb

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  卒業論文用の参考文献スタイル。
+  情報処理学会「論文誌ジャーナル原稿執筆案内」の参考文献の記載方法に準じる。
+    和文: [1] 著者：題名，誌名，Vol.19，No.3，pp.365–372（2004）．
+    英文: [2] Author, A. and Author, B.: Title, Journal, Vol.21, No.2, pp.120–126 (1978).
+  和文か英文かは language の有無で分ける(_template/ja-refs.lua が自動で付ける)。
+-->
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" default-locale="en-US">
+  <info>
+    <title>卒業論文(情報処理学会の記載方法に準拠)</title>
+    <id>urn:sotsuron-template:references</id>
+    <category citation-format="numeric"/>
+    <updated>2026-10-11T00:00:00+00:00</updated>
+  </info>
+  <locale>
+    <terms>
+      <term name="and">and</term>
+    </terms>
+  </locale>
+
+  <!-- ===== 和文 ===== -->
+  <macro name="source-ja">
+    <choose>
+      <if type="article-journal article-magazine article-newspaper" match="any">
+        <group delimiter="，">
+          <text variable="container-title"/>
+          <text variable="volume" prefix="Vol."/>
+          <text variable="issue" prefix="No."/>
+          <group>
+            <label variable="page" form="short"/>
+            <text variable="page"/>
+          </group>
+          <text variable="DOI" prefix="DOI: "/>
+        </group>
+      </if>
+      <else-if type="paper-conference chapter" match="any">
+        <group delimiter="，">
+          <text variable="container-title"/>
+          <names variable="editor">
+            <name delimiter="，"/>
+            <label form="verb" prefix="（" suffix="）"/>
+          </names>
+          <group>
+            <label variable="page" form="short"/>
+            <text variable="page"/>
+          </group>
+          <text variable="publisher"/>
+          <text variable="DOI" prefix="DOI: "/>
+        </group>
+      </else-if>
+      <else-if type="thesis">
+        <group delimiter="，">
+          <text variable="genre"/>
+          <text variable="publisher"/>
+        </group>
+      </else-if>
+      <else-if type="webpage post post-weblog" match="any">
+        <group delimiter="，">
+          <text variable="container-title"/>
+          <text variable="URL" prefix="入手先〈" suffix="〉"/>
+        </group>
+      </else-if>
+      <else>
+        <group delimiter="，">
+          <choose>
+            <if is-numeric="edition">
+              <text variable="edition" prefix="第" suffix="版"/>
+            </if>
+            <else>
+              <text variable="edition"/>
+            </else>
+          </choose>
+          <text variable="publisher"/>
+          <text variable="URL" prefix="入手先〈" suffix="〉"/>
+        </group>
+      </else>
+    </choose>
+  </macro>
+  <macro name="entry-ja">
+    <group suffix="．">
+      <group delimiter="，">
+        <group delimiter="：">
+          <names variable="author">
+            <name delimiter="，"/>
+            <substitute>
+              <names variable="editor"/>
+            </substitute>
+          </names>
+          <text variable="title"/>
+        </group>
+        <text macro="source-ja"/>
+      </group>
+      <date variable="issued" prefix="（" suffix="）">
+        <date-part name="year"/>
+      </date>
+      <date variable="accessed" prefix="（参照 " suffix="）">
+        <date-part name="year"/>
+        <date-part name="month" form="numeric-leading-zeros" prefix="-"/>
+        <date-part name="day" form="numeric-leading-zeros" prefix="-"/>
+      </date>
+    </group>
+  </macro>
+
+  <!-- ===== 英文 ===== -->
+  <macro name="source-en">
+    <choose>
+      <if type="article-journal article-magazine article-newspaper" match="any">
+        <group delimiter=", ">
+          <text variable="container-title"/>
+          <text variable="volume" prefix="Vol."/>
+          <text variable="issue" prefix="No."/>
+          <group>
+            <label variable="page" form="short"/>
+            <text variable="page"/>
+          </group>
+          <text variable="DOI" prefix="DOI: "/>
+        </group>
+      </if>
+      <else-if type="paper-conference chapter" match="any">
+        <group delimiter=", ">
+          <text variable="container-title"/>
+          <names variable="editor">
+            <name initialize-with="." delimiter=", " and="text" delimiter-precedes-last="never" name-as-sort-order="all" sort-separator=", "/>
+            <label form="short" prefix=" (" suffix=")"/>
+          </names>
+          <group>
+            <label variable="page" form="short"/>
+            <text variable="page"/>
+          </group>
+          <text variable="publisher"/>
+          <text variable="DOI" prefix="DOI: "/>
+        </group>
+      </else-if>
+      <else-if type="thesis">
+        <group delimiter=", ">
+          <text variable="genre"/>
+          <text variable="publisher"/>
+        </group>
+      </else-if>
+      <else-if type="webpage post post-weblog" match="any">
+        <group delimiter=", ">
+          <text variable="container-title"/>
+          <text variable="URL" prefix="available from &lt;" suffix="&gt;"/>
+        </group>
+      </else-if>
+      <else>
+        <group delimiter=", ">
+          <choose>
+            <if is-numeric="edition">
+              <group delimiter=" ">
+                <number variable="edition" form="ordinal"/>
+                <text term="edition" form="short"/>
+              </group>
+            </if>
+            <else>
+              <text variable="edition"/>
+            </else>
+          </choose>
+          <text variable="publisher"/>
+          <text variable="URL" prefix="available from &lt;" suffix="&gt;"/>
+        </group>
+      </else>
+    </choose>
+  </macro>
+  <macro name="entry-en">
+    <group suffix=".">
+      <group delimiter=", ">
+        <group delimiter=": ">
+          <names variable="author">
+            <name initialize-with="." delimiter=", " and="text" delimiter-precedes-last="never" name-as-sort-order="all" sort-separator=", "/>
+            <substitute>
+              <names variable="editor"/>
+            </substitute>
+          </names>
+          <text variable="title"/>
+        </group>
+        <text macro="source-en"/>
+      </group>
+      <date variable="issued" prefix=" (" suffix=")">
+        <date-part name="year"/>
+      </date>
+      <date variable="accessed" prefix=" (accessed " suffix=")">
+        <date-part name="year"/>
+        <date-part name="month" form="numeric-leading-zeros" prefix="-"/>
+        <date-part name="day" form="numeric-leading-zeros" prefix="-"/>
+      </date>
+    </group>
+  </macro>
+
+  <!-- 本文中: [1]、[1, 2]、[1–3] -->
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout prefix="[" suffix="]" delimiter=", ">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <!-- 文献リスト: 引用した順 -->
+  <bibliography second-field-align="flush" entry-spacing="0">
+    <layout>
+      <text variable="citation-number" prefix="[" suffix="]"/>
+      <choose>
+        <if variable="language">
+          <text macro="entry-ja"/>
+        </if>
+        <else>
+          <text macro="entry-en"/>
+        </else>
+      </choose>
+    </layout>
+  </bibliography>
+</style>

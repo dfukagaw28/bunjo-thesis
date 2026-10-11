@@ -1,0 +1,36 @@
+%% 中表紙
+\begin{titlepage}
+  \centering
+  \vspace*{10mm}
+  {\huge $thesis.year$年度\hspace{5mm}卒業論文\par}
+  \vfill
+  {\huge\bfseries $title$\par}
+$if(subtitle)$
+  \vspace{5mm}
+  {\LARGE $subtitle$\par}
+$endif$
+  \vfill
+  \vspace*{20mm}
+  {\LARGE $thesis.affiliation$\par}
+  \vspace{5mm}
+  {\LARGE $thesis.student-id$\par}
+  \vspace{2mm}
+  {\LARGE $for(author)$$author$$sep$\quad $endfor$\par}
+  \vspace{40mm}
+  {\Large
+  \begin{tabular}{ll}
+$for(thesis.advisers)$
+    $it.role$ & $it.name$ \\
+$endfor$
+  \end{tabular}\par}
+  \vspace{20mm}
+  {\Large $thesis.date$\par}
+\end{titlepage}
+
+%% 要旨
+\pagenumbering{roman}
+$if(thesis.abstract)$
+\chapter*{要旨}
+\thispagestyle{empty}
+$thesis.abstract$
+$endif$
