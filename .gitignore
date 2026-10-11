@@ -2,6 +2,8 @@
 /.quarto/
 /_book/
 /index.tex
+# keep-tex で残した LaTeX のソース(Overleaf に移すときに使う)
+/thesis.tex
 **/*_files/
 
 # Python

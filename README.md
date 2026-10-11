@@ -84,3 +84,21 @@ GitHub に push すると、GitHub Actions が同じ PDF を作ります(Actions
 - 原稿の改行は、PDF では空白にならない(`_quarto.yml` の `wrap: preserve`)。和文の途中で改行してかまわない。
 - 書体は原ノ味明朝で、見出しも明朝の太字(`_template/fonts.tex`)。
 - 版面は `_template/doc-class.tex`、表紙と要旨は `_template/before-body.tex` で変えられます。
+
+## Overleaf に移すとき
+
+最後の手直しを Overleaf で行いたい場合は、PDF を作るときに使った LaTeX のソースを残して持っていきます。
+
+```sh
+uv run quarto render -M keep-tex:true
+```
+
+1. リポジトリ直下にできた `thesis.tex` と、コードで作った図 `chapters/*_files/figure-pdf/` を、フォルダ構成を変えずに Overleaf のプロジェクトへアップロードする。
+   `figures/` に置いた画像も同じようにアップロードする。
+2. Overleaf の Menu → Compiler を **LuaLaTeX** にする。
+
+移したあとは、次のことができなくなります。分析と文献が固まってから移してください。
+
+- 分析コードは実行されない。図表と本文中の数値は、移した時点の値のまま固定される。
+- 文献番号と参考文献の一覧は、清書済みの文字として入る。引用を足すと、番号と一覧を手で直すことになる。
+- 以後は LaTeX で直接書くことになり、Quarto の原稿には戻せない。
