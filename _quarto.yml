@@ -38,6 +38,7 @@ thesis:
 lang: ja
 bibliography: references.bib
 csl: _template/references.csl
+link-citations: true          # 本文の [1] から参考文献へ移動できるようにする
 filters:
   - _template/ja-refs.lua      # 和文・英文の文献を見分ける
   - _template/code-breaks.lua  # 本文中の長いパスを途中で改行できるようにする
