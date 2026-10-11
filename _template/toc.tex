@@ -3,6 +3,11 @@
 \makeatletter
 \patchcmd{\@dottedtocline}{・}{.}{}{}
 \renewcommand{\@dotsep}{4.5}
+%% 章の行と「付録」の行を太字にする
+\let\thesis@l@chapter\l@chapter
+\renewcommand{\l@chapter}[2]{\thesis@l@chapter{{\bfseries #1}}{#2}}
+\let\thesis@l@part\l@part
+\renewcommand{\l@part}[2]{\thesis@l@part{{\bfseries #1}}{#2}}
 \makeatother
 $if(toc)$
 \setcounter{tocdepth}{$toc-depth$}
