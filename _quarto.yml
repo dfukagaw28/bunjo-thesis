@@ -4,7 +4,9 @@ project:
 
 # ---- ここから自分の情報に書き換える ----------------------------------
 book:
-  title: "Markdown と Quarto による卒業論文の作成"
+  title: |
+    | MarkdownとQuartoによる
+    | 卒業論文の作成
   author: "文情 太郎"
   output-file: thesis
   chapters:

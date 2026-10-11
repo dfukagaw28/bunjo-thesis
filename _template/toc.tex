@@ -3,11 +3,22 @@
 \makeatletter
 \patchcmd{\@dottedtocline}{・}{.}{}{}
 \renewcommand{\@dotsep}{4.5}
-%% 章の行と「付録」の行を太字にする
+%% 章の行と「付録」の行は、題名もページ番号も太字にし、点線をなくす
+%% (点の間隔を行より広くすると、点が 1 つも置かれなくなる)
+\newcommand{\thesis@tocpagefont}{}
+\patchcmd{\@dottedtocline}{\normalfont\normalcolor}{\normalfont\normalcolor\thesis@tocpagefont}{}{}
+%% (グループで囲むと jlreq の字下げの記録が消えるので、設定は後で元に戻す)
+\newcommand{\thesis@boldtocline}[3]{%
+  \let\thesis@dotsep\@dotsep
+  \renewcommand{\@dotsep}{10000}%
+  \renewcommand{\thesis@tocpagefont}{\bfseries}%
+  #1{{\bfseries #2}}{#3}%
+  \let\@dotsep\thesis@dotsep
+  \renewcommand{\thesis@tocpagefont}{}}
 \let\thesis@l@chapter\l@chapter
-\renewcommand{\l@chapter}[2]{\thesis@l@chapter{{\bfseries #1}}{#2}}
+\renewcommand{\l@chapter}{\thesis@boldtocline\thesis@l@chapter}
 \let\thesis@l@part\l@part
-\renewcommand{\l@part}[2]{\thesis@l@part{{\bfseries #1}}{#2}}
+\renewcommand{\l@part}{\thesis@boldtocline\thesis@l@part}
 \makeatother
 $if(toc)$
 \setcounter{tocdepth}{$toc-depth$}
