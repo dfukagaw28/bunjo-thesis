@@ -82,4 +82,5 @@ GitHub に push すると、GitHub Actions が同じ PDF を作ります(Actions
 - 本文中のコード(`` `analysis/sample.py` `` など)は、`/` `_` `-` `.` の直後で改行できる(`_template/code-breaks.lua`)。
   長いパスが行末に来ても、その行の字間が広がらない。区切りのない長い文字列は改行できない。
 - 原稿の改行は、PDF では空白にならない(`_quarto.yml` の `wrap: preserve`)。和文の途中で改行してかまわない。
+- 書体は原ノ味明朝で、見出しも明朝の太字(`_template/fonts.tex`)。
 - 版面は `_template/doc-class.tex`、表紙と要旨は `_template/before-body.tex` で変えられます。

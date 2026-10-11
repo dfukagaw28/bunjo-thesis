@@ -17,7 +17,7 @@ jobs:
           echo "$HOME/.TinyTeX/bin/x86_64-linux" >> "$GITHUB_PATH"
           export PATH="$HOME/.TinyTeX/bin/x86_64-linux:$PATH"
           tlmgr update --self
-          tlmgr install jlreq luatexja haranoaji selnolig caption
+          tlmgr install jlreq luatexja haranoaji selnolig caption regexpatch
 
       # uv.lock に記録した版のパッケージを入れる(Python の版は .python-version)
       - uses: astral-sh/setup-uv@v10.3.0

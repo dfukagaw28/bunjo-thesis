@@ -1,0 +1,9 @@
+%% 書体: 和文は原ノ味フォント。deluxe で明朝にも太字が使えるようになる
+\usepackage[haranoaji,deluxe]{luatexja-preset}
+
+%% 見出しをゴシックではなく明朝の太字にする(従来の LaTeX 版の体裁に合わせる)
+\ModifyHeading{chapter}{font={\huge\bfseries}}
+\ModifyHeading{section}{font={\Large\bfseries}}
+\ModifyHeading{subsection}{font={\large\bfseries}}
+\ModifyHeading{subsubsection}{font={\normalsize\bfseries}}
+\ModifyHeading{paragraph}{font={\normalsize\bfseries}}

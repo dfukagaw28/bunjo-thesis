@@ -58,6 +58,8 @@ format:
     number-sections: true
     fig-width: 5
     fig-height: 2.6
+    include-in-header:
+      - _template/fonts.tex    # 書体と見出しの体裁
     template-partials:
       - _template/doc-class.tex
       - _template/before-body.tex
