@@ -10,12 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: LaTeX(日本語)を入れる
+      # apt の TeX Live より速い TinyTeX を使う。足りないパッケージは quarto render が自動で入れる
+      - name: LaTeX(TinyTeX)を入れる
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            texlive-luatex texlive-lang-japanese \
-            texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+          curl -fsSL https://github.com/rstudio/tinytex-releases/releases/download/v2026.10/TinyTeX-1-linux-x86_64-v2026.10.tar.xz | tar xJ -C "$HOME"
+          echo "$HOME/.TinyTeX/bin/x86_64-linux" >> "$GITHUB_PATH"
+          export PATH="$HOME/.TinyTeX/bin/x86_64-linux:$PATH"
+          tlmgr update --self
+          tlmgr install jlreq luatexja haranoaji selnolig caption
 
       - uses: actions/setup-python@v7
         with:
