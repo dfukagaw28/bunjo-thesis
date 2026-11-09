@@ -22,6 +22,8 @@ uv run quarto preview     # 保存するたびに作り直してプレビュー�
 GitHub に push すると、GitHub Actions が同じ PDF を作ります(Actions タブ → 実行結果 → Artifacts)。
 手元に環境がなくても、PDF はここから取得できます。
 
+Quarto や TeX を入れる代わりに、Docker でも PDF を作れます([Docker で PDF を作る](#docker-で-pdf-を作る))。
+
 ## どこに何を書くか
 
 | 場所 | 内容 |
@@ -36,6 +38,7 @@ GitHub に push すると、GitHub Actions が同じ PDF を作ります(Actions
 | `pyproject.toml`、`uv.lock` | 分析に使うパッケージとその版(`uv add` で更新する) |
 | `figures/` | 写真など、コードで作らない図(必要になったら作る) |
 | `_template/` | 表紙・版面・文献スタイル。ふだんは触らない |
+| `Dockerfile` | PDF を作る環境(Docker を使う場合) |
 
 文献データは、CiNii Research や Google Scholar、Zotero から BibTeX 形式で書き出して `references.bib` に貼り付けます。
 
@@ -84,6 +87,35 @@ GitHub に push すると、GitHub Actions が同じ PDF を作ります(Actions
 - 原稿の改行は、PDF では空白にならない(`_quarto.yml` の `wrap: preserve`)。和文の途中で改行してかまわない。
 - 書体は原ノ味明朝で、見出しも明朝の太字(`_template/fonts.tex`)。
 - 版面は `_template/doc-class.tex`、表紙と要旨は `_template/before-body.tex` で変えられます。
+
+## Docker で PDF を作る
+
+Quarto、TeX、uv を手元に入れなくても、[Docker](https://docs.docker.com/get-started/get-docker/) があれば PDF を作れます。
+中身は GitHub Actions と同じ版の TinyTeX、Quarto、uv で、Intel/AMD の PC と Apple Silicon の Mac のどちらでも動きます。
+GitHub Actions の無料枠を使い切ったときや、手元の環境がうまく動かないときにも使えます。
+
+まず、リポジトリのフォルダで環境(イメージ)を作ります。初回は数分かかり、約 1.5 GB になります。
+
+```sh
+docker build -t bunjo-thesis .
+```
+
+PDF を作ります(`_book/thesis.pdf` ができる)。
+
+```sh
+docker run --rm -v "$PWD":/work bunjo-thesis
+```
+
+保存するたびに作り直してプレビューするときは、次のようにして、ブラウザで http://localhost:4200/thesis.pdf を開きます(Ctrl+C で終了)。
+
+```sh
+docker run --rm -it -p 4200:4200 -v "$PWD":/work bunjo-thesis \
+  uv run quarto preview --port 4200 --host 0.0.0.0 --no-browser
+```
+
+- Linux の Docker では、できたファイルの持ち主が root にならないように、`docker run` に `--user "$(id -u):$(id -g)"` を足します(macOS と Windows の Docker Desktop、podman では不要)。
+- Windows の PowerShell では、`"$PWD":/work` を `"${PWD}:/work"` と書きます。
+- `uv add` でパッケージを足したときは、`docker build` をやり直します(やり直さなくても動きますが、毎回パッケージを入れ直すので遅くなります)。
 
 ## Overleaf に移すとき
 
