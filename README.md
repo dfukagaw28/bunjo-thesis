@@ -68,6 +68,8 @@ Quarto や TeX を入れる代わりに、Docker でも PDF を作れます([Doc
 - パッケージを足すときは `uv add パッケージ名`(例: `uv add scikit-learn`)を実行し、
   変わった `pyproject.toml` と `uv.lock` もコミットします。
   `uv.lock` に版が記録されるので、手元でも GitHub Actions でも同じ版で計算されます。
+- JupyterLab など、手元で試すときにだけ使うものは `uv add --dev パッケージ名` で足します。
+  `uv sync` では入りますが、GitHub Actions と Docker では入れません(PDF の作成が速く、イメージが小さくなる)。
 - R を使う場合は、チャンクを ```` ```{r} ```` にします。コードを使わない場合は、チャンクを消せば Python は不要です。
 - 計算に時間がかかるようになったら、`_quarto.yml` の `execute` に `freeze: auto` を足します。
   変更のない章は再計算されなくなります(`_freeze/` もコミットしてください)。
@@ -94,7 +96,7 @@ Quarto、TeX、uv を手元に入れなくても、[Docker](https://docs.docker.
 中身は GitHub Actions と同じ版の TinyTeX、Quarto、uv で、Intel/AMD の PC と Apple Silicon の Mac のどちらでも動きます。
 GitHub Actions の無料枠を使い切ったときや、手元の環境がうまく動かないときにも使えます。
 
-まず、リポジトリのフォルダで環境(イメージ)を作ります。初回は数分かかり、約 1.5 GB になります。
+まず、リポジトリのフォルダで環境(イメージ)を作ります。初回は数分かかり、約 1.1 GB になります。
 
 ```sh
 docker build -t bunjo-thesis .

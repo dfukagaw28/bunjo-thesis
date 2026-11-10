@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    env:
+      UV_NO_DEV: 1   # JupyterLab など(pyproject.toml の dev)は PDF の作成に要らないので入れない
     steps:
       - uses: actions/checkout@v7
 
