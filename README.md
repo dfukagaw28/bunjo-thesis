@@ -8,7 +8,9 @@ Markdown で書いた原稿と分析コードから、卒業論文の PDF を作
 1. このページの **Use this template** から、自分用のリポジトリを作る(Private を推奨)。
 2. 手元に clone し、必要なソフトを入れる。
    - [Quarto](https://quarto.org/docs/get-started/)(1.4 以降)
-   - TeX Live(LuaLaTeX と jlreq、LuaTeX-ja、原ノ味フォントを含むもの。フルインストールなら入っている)
+   - LaTeX:Quarto を入れたあと、ターミナルで `quarto install tinytex` を実行する。
+     Quarto が使う小さな TeX(TinyTeX)が入る。
+     TeX Live をすでに入れている場合は不要(LuaLaTeX、jlreq、LuaTeX-ja、原ノ味フォントが要る。フルインストールなら入っている)。
    - [uv](https://docs.astral.sh/uv/getting-started/installation/)(Python の版とパッケージを管理する)
    - リポジトリのフォルダで `uv sync` を実行する。Python 本体と、分析に使うパッケージが入る。
 3. `_quarto.yml` の上のほうにある題目・氏名・学籍番号・担当教員・要旨を書き換える。
@@ -18,6 +20,10 @@ Markdown で書いた原稿と分析コードから、卒業論文の PDF を作
 uv run quarto render      # _book/thesis.pdf ができる
 uv run quarto preview     # 保存するたびに作り直してプレビューする
 ```
+
+TinyTeX を入れた直後は、足りない LaTeX のパッケージ(jlreq、原ノ味フォントなど)を `quarto render` が自動でダウンロードします。
+そのため、初回は数分かかり、途中でエラーになって止まることがあります。
+止まるたびに必要なパッケージが入っていくので、成功するまで何度か実行し直してください(2〜3 回で済みます)。
 
 GitHub に push すると、GitHub Actions が同じ PDF を作ります(Actions タブ → 実行結果 → Artifacts)。
 手元に環境がなくても、PDF はここから取得できます。
